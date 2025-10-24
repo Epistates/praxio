@@ -8,17 +8,15 @@ Imagine you're working with an AI in your editor (Claude, Gemini, or any MCP-com
 
 **Without Praxio**: Your AI burns through your token budget reading all the existing code into your shared conversation context, reducing how much space you have for actual work.
 
-**With Praxio**: Your AI asks specialized models to analyze the code in parallel—delegating to Claude's speed, Gemini's huge context window, or both—gets back concise summaries, and you keep your main conversation clean and focused.
+**With Praxio**: Your AI delegates specialized tasks to other models—using Claude's speed, Gemini's huge context window, or both—gets back concise summaries, and you keep your main conversation clean and focused on what matters.
 
-### Real Problems It Solves
+### What It Solves
 
-| Problem | Impact | Praxio Solution |
-|---------|--------|-----------------|
-| **Context Explosion** | Your 100k token limit fills up with background research | Delegate research tasks to separate models, keep main context clean |
-| **Expensive For Simple Tasks** | Using expensive models for small subtasks wastes budget | Route simple tasks to cheaper models or faster alternatives |
-| **Can't Leverage Multiple Models** | Need Gemini's 1M context OR Haiku's speed but stuck with one model | Use the right tool for each job in one workflow |
-| **Slow Multi-Step Workflows** | Sequential tasks take forever | Run analysis in parallel on specialized models |
-| **No Cost Tracking** | Don't know which tasks cost the most | See token usage and cost breakdown per delegation |
+- **Context Window Pollution**: Keep your main AI conversation focused by delegating background tasks instead of polluting it with large file reads
+- **Expensive For Simple Tasks**: Route simple subtasks to less expensive models while your main AI stays focused
+- **Leverage Multiple Models**: Use Claude for reasoning, Gemini for large-scale analysis, or any combination in one workflow
+- **Parallel Task Execution**: Run multiple delegations simultaneously instead of sequentially
+- **Token Efficiency**: See exactly which tasks are consuming tokens and delegate accordingly
 
 ## Multi-Provider Support
 
@@ -32,56 +30,13 @@ Choose the best model for each task, not just one model for everything.
 
 ## Use Cases
 
-### 1. **Code Analysis & Planning**
-```
-You: "Refactor the auth module to use OAuth2"
-  ↓
-Your AI Agent (Claude, Gemini, or other):
-  - Creates a refactoring plan
-  - Delegates: "List all OAuth2 packages in package.json"
-    to Haiku (cheap, fast)
-  - Delegates: "Find all places auth tokens are used"  
-    to Gemini (searches through large codebase with 1M context)
-  - Combines results into a detailed implementation plan
-  - You stay focused on refactoring, not research
-```
+Your AI agent can intelligently delegate:
 
-### 2. **Documentation Generation**
-```
-You: "Write API documentation for our REST endpoints"
-  ↓
-Your AI Agent:
-  - Delegates: "Extract all route definitions and their current docs"
-    to Gemini (better at pattern matching across large files)
-  - Delegates: "Generate OpenAPI spec from these routes"
-    to a cheaper model (simpler task)
-  - Writes final, polished documentation
-  - Total cost: ~$0.05 instead of $0.20 with one expensive model
-```
-
-### 3. **Security & Code Review**
-```
-You: "Review this codebase for security issues"
-  ↓
-Your AI Agent:
-  - Delegates: "Find all database queries"
-    to Claude (fast SQL analysis)
-  - Delegates: "Find all HTTP endpoints"  
-    to Gemini (pattern matching across files)
-  - Combines findings into comprehensive security report
-  - Parallel execution = faster results, better coverage
-```
-
-### 4. **Parallel Task Execution**
-```
-You: "Migrate this project from Express to Hono"
-  ↓
-Your AI Agent coordinates multiple delegations in parallel:
-  - Analysis: "What Express patterns are used?" → Gemini
-  - Planning: "How does Hono differ?" → Claude
-  - Testing: "Generate migration tests" → Haiku
-  - All three happen at once, results combined
-```
+- **Code Analysis**: Analyze large codebases without filling main context
+- **Documentation Generation**: Generate docs from pattern matching across files
+- **Security & Code Review**: Run multiple security checks in parallel
+- **Codebase Navigation**: Search and map files using specialized models
+- **Multi-Step Tasks**: Orchestrate complex workflows with different models
 
 ## Getting Started
 
@@ -128,14 +83,10 @@ Once installed, you can ask your AI agent naturally:
 
 ```
 You: "I need to understand the codebase structure. 
-      Can you ask a specialist to map out all the database tables 
-      and API endpoints?"
+      Can you delegate analyzing the database schema and API endpoints?"
 
-Your AI will automatically use:
-- invoke_claude to delegate fast analysis
-- invoke_gemini to delegate large file searches
-
-Then synthesize the results for you.
+Your AI will automatically use delegation to handle this in parallel
+and synthesize the results for you.
 ```
 
 Or be explicit about which provider to use:
@@ -156,11 +107,11 @@ It has a huge context window."
 - **Stay in context**: Main conversation stays focused on YOUR work
 - **Parallel execution**: Multiple delegations happen simultaneously
 
-### Cost Awareness
-- **See what things cost**: Every delegation shows token usage and estimated cost
-- **Choose models by efficiency**: Use cheaper/faster models for different tasks
-- **Track total spending**: Know exactly how much you spent on delegation
-- **Multi-provider pricing**: Compare costs across Claude and Gemini
+### Cost Optimization
+- **Delegate smartly**: Use less expensive models for simpler tasks
+- **Choose by efficiency**: Route different tasks to different models
+- **See token usage**: Track which delegations use most tokens
+- **Reduce context costs**: Smaller main context = lower token usage
 
 ### Reliable
 - **Automatic fallback** (Claude): If your chosen model is busy, automatically try another
@@ -172,7 +123,6 @@ It has a huge context window."
 - **Works with any MCP client**: Cursor, continue.dev, etc
 - **Provider agnostic**: Add Claude, Gemini, or both
 - **Extensible**: Future support for more models
-
 
 ## Configuration
 
@@ -245,28 +195,6 @@ Praxio checks provider availability on startup:
 - Gemini: Checks for GEMINI_API_KEY environment variable
 - Both optional: Use whichever you have configured
 
-## Pricing Comparison
-
-Praxio itself is **free and open source**. You only pay for LLM API calls.
-
-**Sample costs using different providers:**
-
-| Task | Claude Sonnet | Gemini Flash | Savings |
-|------|---------------|--------------|---------|
-| Search 100 files | Sonnet 20M tokens: $0.60 | Gemini 500K tokens: $0.03 | **95%** |
-| Security review | Opus 10M tokens: $0.75 | Haiku 1M tokens: $0.05 | **93%** |
-| Code analysis | Sonnet 15M tokens: $0.45 | Gemini 2M tokens: $0.01 | **98%** |
-
-**Provider characteristics:**
-
-| Provider | Best For | Speed | Context | Cost |
-|----------|----------|-------|---------|------|
-| Claude | Reasoning, coordination | Fast ⚡ | 200K | $ |
-| Gemini | Large files, patterns | Medium | 1M+ | $ |
-| Haiku | Simple tasks | Fast ⚡ | 200K | $$ |
-
-Choose the right provider for each task in your workflow.
-
 ## Supported Providers
 
 ### Currently Supported
@@ -297,7 +225,7 @@ Choose the right provider for each task in your workflow.
 ### Future - Phase 4
 - 🚧 HTTP API for programmatic access
 - 🚧 More LLM providers (OpenAI, Mistral, local)
-- 🚧 Cost reporting dashboard
+- 🚧 Delegation metrics and insights
 - 🚧 Model performance tracking
 
 ## FAQ
@@ -320,8 +248,8 @@ A: Yes, Praxio works with any MCP-compatible client (Cursor, continue.dev, etc).
 **Q: Does Praxio collect analytics?**
 A: No. Praxio is open source and completely local. No telemetry, no analytics, no tracking.
 
-**Q: How is this different from just using one model?**
-A: You choose the best model for each task, not compromise on one model for everything. Claude for speed, Gemini for scale, both in one workflow = better results, faster, cheaper.
+**Q: How does delegation help my workflow?**
+A: Delegation keeps your main AI focused on your task, not drowning in background research. You get faster responses, cleaner context, and can choose the best tool for each job.
 
 **Q: Can I use this with local models?**
 A: Not yet, but it's planned for Phase 4.
