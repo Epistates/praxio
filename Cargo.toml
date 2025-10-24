@@ -9,7 +9,7 @@ readme = "README.md"
 homepage = "https://github.com/epistates/praxio"
 repository = "https://github.com/epistates/praxio"
 license = "MIT"
-keywords = ["mcp", "llm", "ai", "delegation", "model-context-protocol"]
+keywords = ["mcp", "llm", "ai", "delegation", "mcp-server"]
 categories = ["command-line-utilities", "api-bindings", "development-tools"]
 exclude = [
     ".strategy/",
