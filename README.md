@@ -1,5 +1,10 @@
 # Praxio - Your AI Assistant's AI Assistant
 
+[![Crates.io](https://img.shields.io/crates/v/praxio.svg)](https://crates.io/crates/praxio)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Rust](https://img.shields.io/badge/rust-1.90+-orange.svg)](https://www.rust-lang.org/)
+[![GitHub](https://img.shields.io/badge/github-epistates/praxio-blue.svg)](https://github.com/epistates/praxio)
+
 Save tokens, cut costs, and keep your AI focused on what matters. Praxio is a smart delegation layer for AI workflows that lets any AI agent delegate specialized tasks to other models—using Claude, Gemini, or any combination.
 
 ## Why Praxio?
@@ -50,13 +55,23 @@ Your AI agent can intelligently delegate:
 
 ### Installation
 
+**With Cargo (Recommended):**
+
+```bash
+cargo install praxio
+```
+
+This downloads and builds Praxio from [crates.io](https://crates.io/crates/praxio), making it available as `praxio` in your PATH.
+
+**From Source:**
+
 ```bash
 # Clone and build
 git clone https://github.com/epistates/praxio.git
 cd praxio
 cargo build --release
 
-# The binary is now at ./target/release/praxio
+# The binary is at ./target/release/praxio
 ```
 
 ### Set Up with Claude Code (or any MCP client)
@@ -67,7 +82,19 @@ Add to your configuration (usually `~/.config/claude/claude.json` or via UI):
 {
   "mcpServers": {
     "praxio": {
-      "command": "/path/to/praxio/target/release/praxio"
+      "command": "praxio"
+    }
+  }
+}
+```
+
+Or if building from source:
+
+```json
+{
+  "mcpServers": {
+    "praxio": {
+      "command": "/path/to/target/release/praxio"
     }
   }
 }
