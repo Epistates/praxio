@@ -1,0 +1,45 @@
+[package]
+name = "praxio"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.90.0"
+authors = ["Nick Paterno"]
+description = "MCP server for LLM delegation - enables AI agents to delegate tasks to specialist models without context pollution"
+readme = "README.md"
+homepage = "https://github.com/epistates/praxio"
+repository = "https://github.com/epistates/praxio"
+license = "MIT"
+keywords = ["mcp", "llm", "ai", "delegation", "model-context-protocol"]
+categories = ["command-line-utilities", "api-bindings", "development-tools"]
+exclude = [
+    ".strategy/",
+    "*.md",
+    "!README.md",
+    "test-*.json",
+    ".DS_Store",
+]
+
+[dependencies]
+turbomcp = "2.0.4"
+turbomcp-server = "2.0.4"
+turbomcp-macros = "2.0.4"
+turbomcp-protocol = "2.0.4"
+tokio = { version = "1", features = ["full"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "1"
+anyhow = "1"
+async-trait = "0.1"
+uuid = { version = "1", features = ["v4"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+[dev-dependencies]
+tempfile = "3"
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+strip = true
+panic = "abort"
